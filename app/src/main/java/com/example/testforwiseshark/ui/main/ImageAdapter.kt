@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.testforwiseshark.R
 
-class ImageAdapter (): RecyclerView.Adapter<ImageItemHolder>() {
+class ImageAdapter: RecyclerView.Adapter<ImageItemHolder>() {
 
     private var images: List<String> = emptyList()
 
