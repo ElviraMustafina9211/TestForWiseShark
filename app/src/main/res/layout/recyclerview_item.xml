@@ -5,4 +5,4 @@
     android:layout_height="100dp"
     android:contentDescription="@string/random_image"
     android:scaleType="centerCrop"
-    android:src="@drawable/manul" />
+    android:layout_margin="12dp" />

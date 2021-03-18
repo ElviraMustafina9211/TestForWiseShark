@@ -18,6 +18,7 @@ class ImageItemHolder(view: View) : RecyclerView.ViewHolder(view) {
         this.imageUrl = imageUrl
         Glide.with(itemView.context)
             .load(imageUrl)
+            .placeholder(R.drawable.placeholder)
             .apply(RequestOptions().transform(CenterCrop()))
             .into(ivImage)
     }
