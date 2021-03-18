@@ -1,16 +1,22 @@
 package com.example.testforwiseshark.ui.main
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.testforwiseshark.databinding.MainActivityBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var mainActivityBinding: MainActivityBinding
+    private lateinit var binding: MainActivityBinding
+
+    private var adapter: ImageAdapter? = null
 
 
     @Inject
@@ -19,22 +25,48 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-        mainActivityBinding = MainActivityBinding.inflate(layoutInflater)
-        val view = mainActivityBinding.root
+        binding = MainActivityBinding.inflate(layoutInflater)
+        val view = binding.root
         setContentView(view)
 
         val imageViewModel = ViewModelProvider(this, imageViewModelFactory).get(
-            ImageViewModel::class.java)
+            ImageViewModel::class.java
+        )
 
         imageViewModel.getImages()
 
-        val recyclerView = mainActivityBinding.recyclerview
-        val imageAdapter = ImageAdapter()
+        val recyclerView = binding.recyclerview
 
-        recyclerView.adapter = imageAdapter
+        recyclerView.layoutManager = GridLayoutManager(
+            this,
+            3
+        )
+
+        adapter = ImageAdapter()
+        recyclerView.adapter = adapter
 
         imageViewModel.images.observe(this, { images: List<String> ->
-            imageAdapter.setImages(images)
+            adapter?.setImages(images)
         })
+
+        imageViewModel.isLoading.observe(this, { isLoading: Boolean ->
+            if (isLoading) {
+                binding.progressBar.visibility = View.VISIBLE
+            } else {
+                binding.progressBar.visibility = View.GONE
+            }
+        })
+
+        imageViewModel.error.observe(this, { error: Boolean ->
+            if (error) {
+                binding.noInternetConnection.visibility = View.VISIBLE
+            } else {
+                binding.noInternetConnection.visibility = View.GONE
+            }
+        })
+
+        binding.noInternetConnection.setOnClickListener {
+            imageViewModel.getImages()
+        }
     }
 }

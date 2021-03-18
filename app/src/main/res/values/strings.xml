@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">TestForWiseShark</string>
     <string name="random_image">random image</string>
+    <string name="no_internet_connection">Нет подключения к интернету, повторить загрузку?</string>
 </resources>
