@@ -1,11 +1,11 @@
 package com.example.testforwiseshark.ui.main
 
+import android.R
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.testforwiseshark.databinding.MainActivityBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -17,7 +17,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: MainActivityBinding
 
     private var adapter: ImageAdapter? = null
-
 
     @Inject
     lateinit var imageViewModelFactory: ImageViewModelFactory
@@ -44,6 +43,8 @@ class MainActivity : AppCompatActivity() {
 
         adapter = ImageAdapter()
         recyclerView.adapter = adapter
+
+        recyclerView.addItemDecoration(SpacesItemDecoration(12, 3))
 
         imageViewModel.images.observe(this, { images: List<String> ->
             adapter?.setImages(images)
